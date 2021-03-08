@@ -27,12 +27,12 @@ def create_graph(x, y, x_label, y_label, show=False, C=200, figsize=(16,9)):
     y = np.array(y)
     plt.scatter(x, y)
     plt.plot(np.sort(x), model.fit(X, y).predict(np.sort(X, axis=0)), color="black")
-    plt.title(x_label + " vs. " + y_label + "\nCorrelation: " + str(corr(np.array(x),y)))
+    plt.title(y_label + " vs. " + x_label + "\nCorrelation: " + str(corr(np.array(x),y)))
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.legend(["Regression", "Data Points"])
     plt.tight_layout()
-    plt.savefig("graphs/"+ x_label + " vs. " + y_label + ".jpg")
+    plt.savefig("graphs/"+ y_label + " vs. " + x_label + ".jpg")
     if show:
         plt.show()
 
@@ -45,7 +45,7 @@ for code in GNI["Country Code"]:
     if any(owid_df["iso_code"] == code):
         owid_x.append(GNI.loc[GNI["Country Code"] == code]["GNI per capita, PPP (current international $)"].item())
         owid_y.append(owid_df.loc[owid_df["iso_code"] == code]["co2_per_capita"].item())
-create_graph(owid_x, owid_y, "CO2 per Capita (tonnes)", "GNI per capita, PPP (current international $)",
+create_graph(owid_x, owid_y, "GNI per capita, PPP (current international $)", "CO2 per Capita (tonnes)", 
              C=1000, figsize=(8,5))
 
 # Create Municipal Waste graph
@@ -60,5 +60,5 @@ for code in GNI["Country Code"]:
         waste_x.append(GNI.loc[GNI["Country Code"] == code]["GNI per capita, PPP (current international $)"].item())
         waste_y.append(waste_df.loc[waste_df["Country Code"]==code]["Total Waste (tons)"].item() /
                        pop_df.loc[pop_df["Country Code"]==code]["Population"].item())
-create_graph(waste_x, waste_y, "Municipal Waste per capita (tons)", "GNI per capita, PPP (current international $)",
+create_graph(waste_x, waste_y, "GNI per capita, PPP (current international $)", "Municipal Waste per capita (tons)",
              C=.25, figsize=(8,5))
